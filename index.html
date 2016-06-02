@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+</head>
+<body>
+	<table id="actors" border="1">
+		<thead>
+			<tr>
+				<td>Id</td>
+				<td>FirstName</td>
+				<td>LastName</td>
+			</tr>
+		</thead>
+		<tbody>
+			
+		</tbody>
+	</table>
+
+	<table>
+    <tr>
+        <td>Id:</td>
+        <td><input type="text" id="ID" name="Id" /></td>
+    </tr>
+    <tr>
+        <td>First name:</td>
+        <td><input type="text" id="FirstName" name="FirstName" /></td>
+    </tr>
+    <tr>
+        <td>Last name:</td>
+        <td><input type="text" id="LastName" name="LastName" /></td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td><input type="button" value="ADD" onclick="AddActor()" /></td>
+    </tr>
+</table>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			LoadActors();
+		});
+		
+		function LoadActors() {
+			$.getJSON("Actors.json",function(data){
+					var tr;
+    				for (var i = 0; i < data.length; i++) {
+        				tr = $('<tr/>');
+        				tr.append("<td>" + data[i].Id + "</td>");
+        				tr.append("<td>" + data[i].FirstName + "</td>");
+        				tr.append("<td>" + data[i].LastName + "</td>");
+        				$('#actors').append(tr);
+   					}
+			});
+		}
+		
+		function AddActor(){
+        $.ajax({
+            url: 'guardarJson.php',
+            method: 'POST',
+            data: $('input').serialize(),
+            success: function(result) {alert("Realizado! Recarge la página."); },
+            error: function(result) {alert("Error!");}
+        });
+}
+
+	</script>
+</body>
+</html>
